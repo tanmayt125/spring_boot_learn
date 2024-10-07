@@ -13,17 +13,22 @@ public class RestCall {
     public RestCall(WebClient.Builder webClientBuilder){
         this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
     }
-    @GetMapping("/restCall")
+    @GetMapping("/restCallToHello")
     public String call(){
         System.out.println("Hello");
-        Mono<String> response = this.webClient
-                .get()
-                .uri("/hello") // Add your endpoint here
-                .headers(headers -> headers.setBasicAuth("admin", "admin"))
-                .retrieve()
-                .bodyToMono(String.class);
+        try {
+            Mono<String> response = this.webClient
+                    .get()
+                    .uri("/hello") // Add your endpoint here
+                    .headers(headers -> headers.setBasicAuth("admin", "adminp"))
+                    .retrieve()
+                    .bodyToMono(String.class);
 
-        return response.block();
+            return response.block();
+        }
+        catch (Exception e){
+            return "Sorry exception occurs" + e.getMessage();
+        }
     }
 
 }
