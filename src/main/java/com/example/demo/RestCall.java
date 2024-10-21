@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -20,7 +22,7 @@ public class RestCall {
             Mono<String> response = this.webClient
                     .get()
                     .uri("/hello") // Add your endpoint here
-                    .headers(headers -> headers.setBasicAuth("admin", "adminp"))
+                    .headers(headers -> headers.setBasicAuth("admin", "admin"))
                     .retrieve()
                     .bodyToMono(String.class);
 
@@ -29,6 +31,16 @@ public class RestCall {
         catch (Exception e){
             return "Sorry exception occurs" + e.getMessage();
         }
+    }
+
+    @PostMapping("/sendStudent")
+    public Mono<Student> sendStudentToMain(@RequestBody Student student) {
+        return this.webClient.post()
+                .uri("/main") // This is the endpoint of your MainController
+                .headers(headers -> headers.setBasicAuth("admin", "admin"))
+                .body(Mono.just(student), Student.class)
+                .retrieve()
+                .bodyToMono(Student.class);
     }
 
 }
