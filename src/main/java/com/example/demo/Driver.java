@@ -13,7 +13,7 @@ public class Driver {
             System.out.println("Name: " + student.getName());
             System.out.println("Age: " + student.getAge());
         } catch (Exception e) {
-            throw new Exception("Issue in Json Parsing");
+//            throw new Exception("Issue in Json Parsing");
         }
     }
 }
